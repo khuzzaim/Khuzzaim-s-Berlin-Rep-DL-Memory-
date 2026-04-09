@@ -1,36 +1,24 @@
 # Session 3 – Loading Data with Python
 
 ## Overview
-In this session, we learned how to work with data using the Unix shell and Python. The main focus was on loading, processing, and visualizing data.
+In this session, we learned how to load and work with data using Python. The focus was on reading data from files and visualizing it.
 
 ## Data and Metadata
-Data refers to the actual values (e.g., pulse measurements), while metadata provides information about the data (e.g., time, units, or descriptions). Metadata is important for understanding and organizing datasets.
+Data refers to the actual values (e.g., pulse measurements), while metadata provides additional information about the data (e.g., labels such as time and pulse).
 
 ## Getting Data
-We extracted data from a compressed file using:
+We extracted the dataset from a compressed archive using:
 tar xvf session3-data.tar.gz
 
-We also explored downloading datasets using wget and extracting them with unzip.
-
-## Shell Commands
-We used several useful shell commands:
-- wc: count lines/words
-- du: check disk usage
-- head/tail: preview files
-- grep: search inside files
-- find: locate files
+This created a data directory containing the file pulse_data.csv.
 
 ## Loading Data with Python
-We used NumPy to load data from a CSV file:
-np.loadtxt("data/pulse_data.csv", delimiter=",", skiprows=1)
+We loaded the data from the CSV file by opening the file and reading it line by line. The first line (header) was skipped, and the remaining data was split into two columns.
 
-This allowed us to efficiently read numerical data into arrays.
+Each value was converted from a string to a float and stored in separate lists for time and pulse.
 
 ## Plotting Data
-We used Matplotlib to visualize the data:
-plt.plot(time, pulse)
-
-This produced a graph showing how pulse changes over time.
+We used matplotlib to plot the pulse data over time. The time values were used for the x-axis and the pulse values for the y-axis.
 
 ## Conclusion
-This session introduced the full workflow of handling data: extracting, inspecting, loading, and visualizing it using Python tools.
+This session introduced how to load data from files, process it in Python, and visualize it using plots.
