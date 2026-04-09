@@ -17,6 +17,10 @@
 # # Session 3
 
 # %%
+# Load absorption data from CSV file
+# Skip header and convert values to float
+
+# %%
 # Extract time and pulse values
 
 # %%
@@ -36,14 +40,9 @@ with open('data/pulse_data.csv', 'r') as f:
         absorption.append(float(p))
 
 # %%
-print(time[:5])
-print(absorption[:5])
-print(len(time),len(absorption))
+# Load pulse data from csv file
 
 # %%
-
-# %%
-import numpy as np
 from matplotlib import pyplot as plt
 
 # %%
@@ -55,8 +54,3 @@ plt.xlabel("Time")
 plt.ylabel("Absorption")
 plt.title("Absorption over Time")
 plt.show()
-
-# %%
-
-# %%
-plt.plot(time, absorption, marker='o')
