@@ -14,25 +14,28 @@
 # ---
 
 # %% [markdown]
-# # Session 4-->5: Heart Rate Analysis [USING FINDPEAKS]
+# # Session 5-peaks: Using the FINDPEAKS Function
 
 # %%
-# Load absorption data from CSV file
-# Skip header and convert values to float
+# Importing Functions
 
 # %%
-# Extract time and pulse values
+import numpy as np
+import matplotlib.pyplot as plt
+
+# %%
+# Naming empty lists
 
 # %%
 time = []
 absorption = []
 
 # %%
-# Extract time and pulse values
+# Load absorption data from CSV file
 
 # %%
 with open('data/pulse_data.csv', 'r') as f:
-    next(f)  # skip header
+    next(f)
     
     for line in f:
         t, p = line.strip().split(',')
@@ -40,10 +43,11 @@ with open('data/pulse_data.csv', 'r') as f:
         absorption.append(float(p))
 
 # %%
-# Load pulse data from csv file
+# Convert to numpy
 
 # %%
-from matplotlib import pyplot as plt
+time = np.array(time)
+absorption = np.array(absorption)
 
 # %%
 # Plot pulse data over time using matplotlib
@@ -58,20 +62,37 @@ plt.show()
 # %%
 # Peak Detection
 
-# A peak is defined as a point that is higher than its neighboring values.
+##Peaks correspond to heart beats and are identified as local maxima in the absorption signal.
 
-# These peaks correspond to heart beats.
+##Using NumPy arrays allows efficient vectorized comparison of neighboring values to detect peaks.
+
+##A minimum time separation between consecutive peaks is enforced to ensure that detected peaks represent physiological heart beats rather than noise.
 
 # %%
-peaks = []
+peak_indices = np.where(
+    (absorption[1:-1] > absorption[:-2]) &
+    (absorption[1:-1] > absorption[2:])
+)[0] + 1
 
-for i in range(1, len(absorption)-1):
-    if absorption[i] > absorption[i-1] and absorption[i] > absorption[i+1]:
-        if len(peaks) == 0 or (time[i] - peaks[-1]) > 0.5:
-            peaks.append(time[i])
+# %%
+# Applying Time Separation
+
+# %%
+peaks = time[peak_indices]
+
+filtered_peaks = [peaks[0]]
+
+for t in peaks[1:]:
+    if t - filtered_peaks[-1] > 0.3:
+        filtered_peaks.append(t)
+
+peaks = np.array(filtered_peaks)
 
 # %%
 print(len(peaks))
+
+# %%
+print("Number of peaks detected:", len(peaks))
 
 # %%
 # Time Difference Between Peaks
@@ -79,11 +100,7 @@ print(len(peaks))
 # We compute the time difference between consecutive peaks.
 
 # %%
-delta_t = []
-
-for i in range(1, len(peaks)):
-    diff = peaks[i] - peaks[i-1]
-    delta_t.append(diff)
+delta_t = np.diff(peaks)
 
 # %%
 # Heart Rate Calculation
@@ -95,11 +112,7 @@ for i in range(1, len(peaks)):
 # where ΔT is the time between peaks.
 
 # %%
-heart_rate = []
-
-for dt in delta_t:
-    hr = 60 / dt
-    heart_rate.append(hr)
+heart_rate = 60 / delta_t
 
 # %%
 # Heart Rate Plot
@@ -132,59 +145,69 @@ plt.show()
 # This demonstrates basic algorithm design applied to physiological data.
 
 # %%
-# Using Pandas and importing libraries
+# Data Loading
 
 # %%
-import numpy as np
 import pandas as pd
 
-time = pd.Series(np.linspace(0, 60, 500))
-absorption = pd.Series(np.sin(time) + np.random.normal(0, 0.2, 500))
+data = pd.read_csv("data/pulse_data.csv")
+
+time = data.iloc[:, 0]
+absorption = data.iloc[:, 1]
+
+# %%
+# Cleaning Data
+
+# %%
+absorption = pd.to_numeric(absorption, errors='coerce')
+time = pd.to_numeric(time, errors='coerce')
+
+# remove NaNs
+valid = ~(absorption.isna() | time.isna())
+time = time[valid]
+absorption = absorption[valid]
+
+# %%
+# Plotting Signal
 
 # %%
 import matplotlib.pyplot as plt
+
+plt.figure(figsize=(10,4))
+plt.plot(time, absorption)
+plt.title("Raw Pulse Signal")
+plt.show()
+
+# %%
+# Peak Detection
+
+# %%
 from scipy.signal import find_peaks
 
-# %%
-# Generating synthetic pulse signal (SORRY LOST MY PULSE DATA FILE, AND I DON'T REMEMBER)
-time = pd.Series(np.linspace(0, 60, 500))  # 60 seconds
-absorption = pd.Series(np.sin(time) + np.random.normal(0, 0.2, 500))
+peaks, properties = find_peaks(
+    absorption,
+    distance=20,     # spacing between beats
+    prominence=0.2   # removes noise peaks
+)
 
 # %%
-plt.figure(figsize=(10, 4))
+# Plot Peaks
+
+# %%
+plt.figure(figsize=(10,4))
 plt.plot(time, absorption)
-plt.title("Pulse Signal Over Time")
-plt.xlabel("Time (seconds)")
-plt.ylabel("Absorption")
+plt.plot(time.iloc[peaks], absorption.iloc[peaks], "ro")
+plt.title("Detected Peaks (Heart Beats)")
 plt.show()
 
 # %%
-peaks, _ = find_peaks(absorption, distance=10)
+Heart Rate
 
 # %%
-plt.figure(figsize=(10, 4))
-plt.plot(time, absorption, label="Signal")
-plt.plot(time[peaks], absorption[peaks], "ro", label="Peaks")
-plt.title("Detected Peaks in Pulse Signal")
-plt.xlabel("Time (seconds)")
-plt.ylabel("Absorption")
-plt.legend()
-plt.show()
+duration = time.iloc[-1] - time.iloc[0]
+heart_rate = (len(peaks) / duration) * 60
+
+print(f"Heart Rate: {heart_rate:.2f} BPM")
 
 # %%
-#Calculating Heart Rate
-duration = time.iloc[-1] - time.iloc[0]  # total time in seconds
-heart_rate = (len(peaks) / duration) * 60  # beats per minute
-
-heart_rate
-
-# %%
-#Interpretation
-print(f"Estimated Heart Rate: {heart_rate:.2f} beats per minute (BPM)")
-
-# %%
-#Improving Peak Detection
-peaks, _ = find_peaks(absorption, distance=10, height=0)
-
-# %%
-#Conclusion: This analysis demonstrates how physiological signals can be processed using Pandas and signal processing techniques to estimate heart rate from peak detection.
+#The synthetic signal and lack of proper filtering led to detection of many local maxima caused by noise rather than true heartbeats. Additionally, without constraints such as minimum distance and prominence, the algorithm identified insignificant fluctuations as peaks.
