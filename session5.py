@@ -140,8 +140,7 @@ precip_ref = pandas.read_csv(
     delimiter=" *; *",
     encoding="iso-8859-1",
     engine="python",
-    decimal=","
-)
+    index_col=0)
 
 # %%
 berlin[berlin["Stationsname"].str.contains("Alexander", case=False)]
