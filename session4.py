@@ -17,22 +17,25 @@
 # # Session 4: Heart Rate Analysis
 
 # %%
-# Load absorption data from CSV file
-# Skip header and convert values to float
+# Importing Functions
 
 # %%
-# Extract time and pulse values
+import numpy as np
+import matplotlib.pyplot as plt
+
+# %%
+# Naming empty lists
 
 # %%
 time = []
 absorption = []
 
 # %%
-# Extract time and pulse values
+# Load absorption data from CSV file
 
 # %%
 with open('data/pulse_data.csv', 'r') as f:
-    next(f)  # skip header
+    next(f)
     
     for line in f:
         t, p = line.strip().split(',')
@@ -40,10 +43,11 @@ with open('data/pulse_data.csv', 'r') as f:
         absorption.append(float(p))
 
 # %%
-# Load pulse data from csv file
+# Convert to numpy
 
 # %%
-from matplotlib import pyplot as plt
+time = np.array(time)
+absorption = np.array(absorption)
 
 # %%
 # Plot pulse data over time using matplotlib
@@ -58,20 +62,37 @@ plt.show()
 # %%
 # Peak Detection
 
-# A peak is defined as a point that is higher than its neighboring values.
+##Peaks correspond to heart beats and are identified as local maxima in the absorption signal.
 
-# These peaks correspond to heart beats.
+##Using NumPy arrays allows efficient vectorized comparison of neighboring values to detect peaks.
+
+##A minimum time separation between consecutive peaks is enforced to ensure that detected peaks represent physiological heart beats rather than noise.
 
 # %%
-peaks = []
+peak_indices = np.where(
+    (absorption[1:-1] > absorption[:-2]) &
+    (absorption[1:-1] > absorption[2:])
+)[0] + 1
 
-for i in range(1, len(absorption)-1):
-    if absorption[i] > absorption[i-1] and absorption[i] > absorption[i+1]:
-        if len(peaks) == 0 or (time[i] - peaks[-1]) > 0.5:
-            peaks.append(time[i])
+# %%
+# Applying Time Separation
+
+# %%
+peaks = time[peak_indices]
+
+filtered_peaks = [peaks[0]]
+
+for t in peaks[1:]:
+    if t - filtered_peaks[-1] > 0.3:
+        filtered_peaks.append(t)
+
+peaks = np.array(filtered_peaks)
 
 # %%
 print(len(peaks))
+
+# %%
+print("Number of peaks detected:", len(peaks))
 
 # %%
 # Time Difference Between Peaks
@@ -79,11 +100,7 @@ print(len(peaks))
 # We compute the time difference between consecutive peaks.
 
 # %%
-delta_t = []
-
-for i in range(1, len(peaks)):
-    diff = peaks[i] - peaks[i-1]
-    delta_t.append(diff)
+delta_t = np.diff(peaks)
 
 # %%
 # Heart Rate Calculation
@@ -95,11 +112,7 @@ for i in range(1, len(peaks)):
 # where ΔT is the time between peaks.
 
 # %%
-heart_rate = []
-
-for dt in delta_t:
-    hr = 60 / dt
-    heart_rate.append(hr)
+heart_rate = 60 / delta_t
 
 # %%
 # Heart Rate Plot
