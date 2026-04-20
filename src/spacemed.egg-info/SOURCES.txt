@@ -1,0 +1,12 @@
+README.md
+pyproject.toml
+setup.cfg
+setup.py
+src/spacemed/__init__.py
+src/spacemed/__version__.py
+src/spacemed.egg-info/PKG-INFO
+src/spacemed.egg-info/SOURCES.txt
+src/spacemed.egg-info/dependency_links.txt
+src/spacemed.egg-info/requires.txt
+src/spacemed.egg-info/top_level.txt
+src/spacemed.egg-info/zip-safe

@@ -8,39 +8,34 @@
 #       format_version: '1.3'
 #       jupytext_version: 1.16.1
 #   kernelspec:
-#     display_name: Python [conda env:conda_envs-gpulab]
+#     display_name: Python [conda env:.conda-spacemed]
 #     language: python
-#     name: conda-env-conda_envs-gpulab-py
+#     name: conda-env-.conda-spacemed-py
 # ---
 
-# %% [markdown]
-# # Session 4: Heart Rate Analysis
+# %%
+# %load_ext autoreload
+# %autoreload 2
 
 # %%
-# Importing Functions
+import spacemed
 
 # %%
-import numpy as np
+spacemed.__version__
+
+# %%
 import matplotlib.pyplot as plt
-
-# %%
-# Naming empty lists
-
-# %%
-time = []
-absorption = []
 
 # %%
 # Load absorption data from CSV file
 
 # %%
-with open('../data/pulse_data.csv', 'r') as f:
-    next(f)
-    
-    for line in f:
-        t, p = line.strip().split(',')
-        time.append(float(t))
-        absorption.append(float(p))
+time, absorption = spacemed.read_pulse("../data/pulse_data.csv")
+
+# %%
+# Importing Functions
+
+import numpy as np
 
 # %%
 # Convert to numpy
@@ -112,7 +107,7 @@ delta_t = np.diff(peaks)
 # where ΔT is the time between peaks.
 
 # %%
-heart_rate = 60 / delta_t
+heart_rate = spacemed.calc_heart_rate(peaks)
 
 # %%
 # Heart Rate Plot
