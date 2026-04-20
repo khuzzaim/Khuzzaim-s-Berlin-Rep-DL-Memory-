@@ -34,7 +34,7 @@ absorption = []
 # Load absorption data from CSV file
 
 # %%
-with open('data/pulse_data.csv', 'r') as f:
+with open('../data/pulse_data.csv', 'r') as f:
     next(f)
     
     for line in f:
