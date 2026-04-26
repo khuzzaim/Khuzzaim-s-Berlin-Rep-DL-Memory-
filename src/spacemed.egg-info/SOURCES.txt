@@ -4,6 +4,8 @@ setup.cfg
 setup.py
 src/spacemed/__init__.py
 src/spacemed/__version__.py
+src/spacemed/analysis.py
+src/spacemed/load_pulse.py
 src/spacemed.egg-info/PKG-INFO
 src/spacemed.egg-info/SOURCES.txt
 src/spacemed.egg-info/dependency_links.txt
