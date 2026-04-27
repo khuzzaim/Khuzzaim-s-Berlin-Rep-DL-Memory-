@@ -44,12 +44,7 @@ peaks = spacemed.find_peaks(time, absorption)
 # Plot
 plt.plot(time, absorption, label="Signal")
 
-plt.scatter(
-    peaks,
-    absorption[np.searchsorted(time, peaks)],
-    color='red',
-    label="Peaks"
-)
+plt.scatter(peaks, absorption[np.searchsorted(time, peaks)], color="red", label="Peaks")
 
 plt.xlabel("Time")
 plt.ylabel("Absorption")

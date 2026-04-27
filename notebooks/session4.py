@@ -34,11 +34,11 @@ absorption = []
 # Load absorption data from CSV file
 
 # %%
-with open('data/pulse_data.csv', 'r') as f:
+with open("data/pulse_data.csv", "r") as f:
     next(f)
-    
+
     for line in f:
-        t, p = line.strip().split(',')
+        t, p = line.strip().split(",")
         time.append(float(t))
         absorption.append(float(p))
 
@@ -69,10 +69,12 @@ plt.show()
 ##A minimum time separation between consecutive peaks is enforced to ensure that detected peaks represent physiological heart beats rather than noise.
 
 # %%
-peak_indices = np.where(
-    (absorption[1:-1] > absorption[:-2]) &
-    (absorption[1:-1] > absorption[2:])
-)[0] + 1
+peak_indices = (
+    np.where(
+        (absorption[1:-1] > absorption[:-2]) & (absorption[1:-1] > absorption[2:])
+    )[0]
+    + 1
+)
 
 # %%
 # Applying Time Separation
@@ -105,7 +107,7 @@ delta_t = np.diff(peaks)
 # %%
 # Heart Rate Calculation
 
-#The heart rate is calculated using:
+# The heart rate is calculated using:
 
 # H = 60 / ΔT
 

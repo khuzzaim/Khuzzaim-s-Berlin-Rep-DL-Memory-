@@ -36,7 +36,7 @@ print(x + y)
 print(x - y)
 print(x * y)
 print(x / y)
-print(x ** y)
+print(x**y)
 
 # %%
 planet = "Mars"
@@ -111,26 +111,19 @@ t = (1, 2, 3)
 t
 
 # %%
-person = {
-    "name": "Khuzzaim",
-    "age": 25
-}
+person = {"name": "Khuzzaim", "age": 25}
 
 # %%
 person["name"]
 
 # %%
-planet_gravity = {
-    "Earth": 9.81,
-    "Moon": 1.62,
-    "Mars": 3.71
-}
+planet_gravity = {"Earth": 9.81, "Moon": 1.62, "Mars": 3.71}
 
 # %%
 planet_gravity["Mars"]
 
 # %%
-for x in [1,2,3]:
+for x in [1, 2, 3]:
     print(x)
 
 # %%

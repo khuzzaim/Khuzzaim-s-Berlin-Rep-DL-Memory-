@@ -1,13 +1,4 @@
 def read_pulse(frame):
-    """
-    Read pulse data from a CSV file.
-
-    Parameters:
-        frame (Path or str): Path to the input CSV file
-
-    Returns:
-        tuple: time and absorption arrays
-    """
     datafile = open(frame)
     time = []
     absorption = []

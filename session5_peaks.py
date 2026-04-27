@@ -15,8 +15,6 @@
 
 # # Session 5 Peaks
 
-import jupytext
-
 # +
 # Imports
 # -
@@ -63,16 +61,12 @@ len(peaks)
 # -
 
 # Detect meaningful peaks using filtering
-peaks, properties = find_peaks(
-    data.absorption,
-    height=2800,
-    distance=120
-)
+peaks, properties = find_peaks(data.absorption, height=2800, distance=120)
 
 # +
 # Plot with peaks
 
-plt.figure(figsize=(10,5))
+plt.figure(figsize=(10, 5))
 plt.plot(data.absorption)
 plt.scatter(peaks, data.absorption.iloc[peaks])
 plt.title(f"Filtered Peaks (Total: {len(peaks)})")
@@ -82,7 +76,7 @@ plt.show()
 data.absorption.describe()
 
 # +
-# The absorption signal ranges from ~1000 to ~3600. 
-# Initial peak detection resulted in 401 peaks due to the absence of filtering. 
-# By setting a height threshold around 2500 and enforcing a minimum distance between peaks, 
+# The absorption signal ranges from ~1000 to ~3600.
+# Initial peak detection resulted in 401 peaks due to the absence of filtering.
+# By setting a height threshold around 2500 and enforcing a minimum distance between peaks,
 # we successfully removed noise and retained physiologically meaningful peaks.

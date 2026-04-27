@@ -1,0 +1,5 @@
+[flake8]
+ignore = W503,E402
+exclude = .git,__pycache__,build,dist,.eggs,doc,notebooks,.ipynb_checkpoints
+max-complexity = 10
+max-line-length = 100

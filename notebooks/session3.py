@@ -31,11 +31,11 @@ absorption = []
 # Extract time and pulse values
 
 # %%
-with open('data/pulse_data.csv', 'r') as f:
+with open("data/pulse_data.csv", "r") as f:
     next(f)  # skip header
-    
+
     for line in f:
-        t, p = line.strip().split(',')
+        t, p = line.strip().split(",")
         time.append(float(t))
         absorption.append(float(p))
 
