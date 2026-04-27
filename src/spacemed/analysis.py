@@ -1,32 +1,33 @@
 import numpy as np
 
 def find_peaks(time, absorption):
-    """Identifies local maxima in the signal with a minimum time separation."""
-
     time = np.array(time)
     absorption = np.array(absorption)
 
     if len(absorption) < 3:
         return np.array([])
 
+    # use threshold
+    threshold = np.percentile(absorption, 75)  # top 25% only
+
     peak_indices = np.where(
         (absorption[1:-1] > absorption[:-2]) &
-        (absorption[1:-1] > absorption[2:])
+        (absorption[1:-1] > absorption[2:]) &
+        (absorption[1:-1] > threshold)
     )[0] + 1
 
     peaks = time[peak_indices]
 
     if len(peaks) == 0:
-        return np.array([])
+        return peaks
 
-    # Filter peaks by 0.3s separation
-    filtered_peaks = [peaks[0]]
+    # enforce minimum spacing
+    filtered = [peaks[0]]
     for t in peaks[1:]:
-        if t - filtered_peaks[-1] > 0.3:
-            filtered_peaks.append(t)
+        if t - filtered[-1] > 0.5:   # increase spacing
+            filtered.append(t)
 
-    return np.array(filtered_peaks)
-
+    return np.array(filtered)
 
 def calc_heart_rate(time, peaks):
     """Calculates heart rate in BPM based on time between peaks."""

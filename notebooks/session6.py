@@ -20,6 +20,7 @@
 # %%
 import spacemed
 import matplotlib.pyplot as plt
+import numpy as np
 
 # %%
 spacemed.__version__
@@ -29,16 +30,32 @@ spacemed.__version__
 time, absorption = spacemed.read_pulse("../data/pulse_data.csv")
 
 # %%
-# Plot signal
-plt.plot(time, absorption)
-plt.xlabel("Time")
-plt.ylabel("Absorption")
-plt.title("Absorption over Time")
-plt.show()
-
-# %%
 # Use package function
 peaks = spacemed.find_peaks(time, absorption)
+
+# %%
+# Conversion
+time = np.array(time)
+absorption = np.array(absorption)
+
+# Detect peaks
+peaks = spacemed.find_peaks(time, absorption)
+
+# Plot
+plt.plot(time, absorption, label="Signal")
+
+plt.scatter(
+    peaks,
+    absorption[np.searchsorted(time, peaks)],
+    color='red',
+    label="Peaks"
+)
+
+plt.xlabel("Time")
+plt.ylabel("Absorption")
+plt.title("Absorption with Peaks")
+plt.legend()
+plt.show()
 
 # %%
 print("Number of peaks detected:", len(peaks))
