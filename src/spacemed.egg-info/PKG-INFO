@@ -1,0 +1,27 @@
+Metadata-Version: 2.4
+Name: spacemed
+Version: 0.1.1
+Summary: Tools for SpaceMed Course
+Home-page: https://git.bihealth.org/spacemed-digital-literacy/2026/personal/mukh11
+Author: Muhammad Khuzzaim Shakeel Khan
+Author-email: muhammad-khuzzaim-shakeel.khan@charite.de
+Classifier: license .. OSI Approved .. GNU General Public License v3
+Classifier: Programming Language :: Python :: 3
+Classifier: Intended Audience :: Science/Research
+Classifier: Topic :: Scientific/Engineering
+Description-Content-Type: text/markdown
+Requires-Dist: pandas
+Requires-Dist: scipy
+
+<<<<<<< README.md
+## About Me
+
+My name is Khuzzaim.
+I am an MD and SpaceMed student.
+I am interested in preventive  medicine and clinical  research
+
+
+This file uses [markdown](https://www.markdownguide.org/). Checkout the
+[cheat sheet](https://www.markdownguide.org/cheat-sheet/) for a summary
+of the syntax. GitLab supports various
+[Markdown extensions](https://docs.gitlab.com/user/markdown/)
