@@ -8,12 +8,12 @@ def find_peaks(time, absorption):
         return np.array([])
 
     # use threshold
-    threshold = np.percentile(absorption, 75)  # top 25% only
+    threshold = np.percentile(absorption, 75)  
 
     peak_indices = np.where(
         (absorption[1:-1] > absorption[:-2]) &
         (absorption[1:-1] > absorption[2:]) &
-        (absorption[1:-1] > threshold)
+        (absorption[1:-1] >= threshold)
     )[0] + 1
 
     peaks = time[peak_indices]

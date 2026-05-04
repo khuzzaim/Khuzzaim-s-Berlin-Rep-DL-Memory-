@@ -1,0 +1,8 @@
+cff-version: 1.2.0
+title: "SpaceMed Heart Rate Analysis Tool"
+message: "If you use this software, please cite it as below."
+authors:
+  - family-names: "Khan"
+    given-names: "Muhammad Khuzzaim Shakeel"
+date-released: 2026-04-27
+version: "1.0"
