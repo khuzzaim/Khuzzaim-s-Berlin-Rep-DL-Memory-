@@ -29,6 +29,11 @@
 # ---
 
 # %%
+# Importing Program
+from spacemed.fmri import (
+    normalize,
+    compute_slice_activation,
+)
 # %%
 import numpy as np
 import matplotlib.pyplot as plt
@@ -222,16 +227,9 @@ plt.title("Raw fMRI Signals")
 plt.legend()
 plt.show()
 
-
 # %%
-# Normalizing
+# Defining Signals
 # %%
-def normalize(x):
-    std = np.std(x)
-    if std == 0:
-        return np.zeros_like(x)   # safe fallback
-    return (x - np.mean(x)) / std
-
 sig1_n = normalize(sig1)
 sig2_n = normalize(sig2)
 sig3_n = normalize(sig3)
@@ -348,27 +346,15 @@ from scipy.ndimage import gaussian_filter
 
 activation_smooth = gaussian_filter(activation_map, sigma=1)
 
+# Clipping weak signals
+# %%
+threshold = np.percentile(activation_smooth, 90)
+activation_thresh = np.where(activation_smooth > threshold, activation_smooth, 0)
+
 # %%
 # Visualising activation map
 # %%
-plt.imshow(activation_map.T, cmap="hot", origin="lower")
-plt.colorbar(label="Correlation Strength")
-plt.title("Brain Activation Map")
+plt.imshow(activation_thresh.T, cmap="hot", origin="lower")
+plt.colorbar()
+plt.title("Activation Map")
 plt.show()
-
-
-# %%
-# Wrapping into function
-# %%
-def compute_slice_activation(data, signal_input, z):
-    activation_map = np.zeros(data.shape[:2])
-    
-    for x in range(data.shape[0]):
-        for y in range(data.shape[1]):
-            voxel_signal = normalize(data[x, y, z])
-            signal_input_n = normalize(signal_input)
-            
-            cross = sg.correlate(voxel_signal, signal_input_n, mode="same")
-            activation_map[x, y] = np.max(cross)
-    
-    return activation_map
