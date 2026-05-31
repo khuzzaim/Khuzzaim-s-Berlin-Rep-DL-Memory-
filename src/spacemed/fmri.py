@@ -3,6 +3,8 @@ from scipy import signal as sg
 
 
 def normalize(x):
+    """Normalize signal using z-score scaling."""
+
     std = np.std(x)
 
     if std == 0:
@@ -12,6 +14,13 @@ def normalize(x):
 
 
 def compute_slice_activation(data, signal_input, z):
+    """
+    Compute activation map for a transverse slice.
+
+    Each voxel is normalized and cross-correlated
+    against the stimulus signal.
+    """
+
     activation_map = np.zeros(data.shape[:2])
 
     signal_input_n = normalize(signal_input)
@@ -34,4 +43,5 @@ def compute_slice_activation(data, signal_input, z):
 
             activation_map[x, y] = np.max(cross)
 
+    return activation_map
     return activation_map
