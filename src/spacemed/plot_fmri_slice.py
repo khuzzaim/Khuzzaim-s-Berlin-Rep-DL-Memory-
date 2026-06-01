@@ -58,15 +58,22 @@ def main():
     )
 
     plt.imshow(
+        data[:, :, args.slice_index, 0].T,
+        cmap="gray",
+        origin="lower"
+    )
+
+    plt.imshow(
         activation_thresh.T,
         cmap="hot",
-        origin="lower"
+        origin="lower",
+        alpha=0.6
     )
 
     plt.colorbar()
 
     plt.title(
-        f"Activation Map Slice {args.slice_index}"
+        f"Activation Map Overlay Slice {args.slice_index}"
     )
 
     plt.savefig(args.output_file)
