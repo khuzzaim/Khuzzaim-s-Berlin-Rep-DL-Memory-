@@ -5,7 +5,9 @@ setup.py
 src/spacemed/__init__.py
 src/spacemed/__version__.py
 src/spacemed/analysis.py
+src/spacemed/fmri.py
 src/spacemed/load_pulse.py
+src/spacemed/plot_fmri_slice.py
 src/spacemed/plot_heart_rate.py
 src/spacemed.egg-info/PKG-INFO
 src/spacemed.egg-info/SOURCES.txt

@@ -3,3 +3,17 @@ __pycache__/
 *.pdf
 *.egg-info/
 Untitled.ipynb.ipynb_checkpoints
+# fMRI / medical data
+*.nii
+*.nii.gz
+*.tar.gz
+
+# raw datasets
+data/
+fmri-data/
+
+# notebook checkpoints
+.ipynb_checkpoints/
+
+# system files
+.DS_Store
